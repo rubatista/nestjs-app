@@ -1,37 +1,28 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { Task } from './interfaces/task.interface';
+import { Task, TaskDocument } from './schemas/task.schema';
 
 @Injectable()
 export class TasksService {
-  private tasks: Task[] = [];
+  constructor(@InjectModel(Task.name) private taskModel: Model<TaskDocument>) {}
 
   findAll() {
-    return this.tasks;
+    return this.taskModel.find().exec();
   }
 
-  create(task: CreateTaskDto) {
-    const newTask = {
-      id: Date.now(),
-      ...task,
-    };
+  create(createTaskDto: CreateTaskDto) {
+    const createdTask = new this.taskModel(createTaskDto);
 
-    this.tasks.push(newTask);
+    return createdTask.save();
   }
 
-  update(id: number, data: Partial<CreateTaskDto>) {
-    const task = this.tasks.find((t) => t.id === id);
-
-    if (!task) return null;
-
-    Object.assign(task, data);
-
-    return task;
+  async update(id: string, data: Partial<CreateTaskDto>) {
+    return this.taskModel.findByIdAndUpdate(id, data, { new: true });
   }
 
-  delete(id: number) {
-    this.tasks = this.tasks.filter((t) => t.id !== id);
-
-    return { deleted: true };
+  delete(id: string) {
+    return this.taskModel.findByIdAndDelete(id);
   }
 }

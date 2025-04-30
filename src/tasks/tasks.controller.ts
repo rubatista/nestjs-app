@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -26,15 +25,12 @@ export class TasksController {
   }
 
   @Put()
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() data: Partial<CreateTaskDto>,
-  ) {
+  update(@Param('id') id: string, @Body() data: Partial<CreateTaskDto>) {
     return this.tasksService.update(id, data);
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id') id: string) {
     return this.tasksService.delete(id);
   }
 }
