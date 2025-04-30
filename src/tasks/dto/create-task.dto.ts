@@ -1,9 +1,9 @@
 import { IsString } from 'class-validator';
 
 export class CreateTaskDto {
-    @IsString()
-    title: string
+  @IsString()
+  title: string;
 
-    @IsString()
-    description: string
+  @IsString()
+  description: string;
 }

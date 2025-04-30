@@ -4,34 +4,34 @@ import { Task } from './interfaces/task.interface';
 
 @Injectable()
 export class TasksService {
-    private tasks: Task[] = [];
+  private tasks: Task[] = [];
 
-    findAll() {
-        return this.tasks;
-    }
+  findAll() {
+    return this.tasks;
+  }
 
-    create(task: CreateTaskDto) {
-        const newTask = {
-            id: Date.now(),
-            ...task,
-        }
+  create(task: CreateTaskDto) {
+    const newTask = {
+      id: Date.now(),
+      ...task,
+    };
 
-        this.tasks.push(newTask);
-    }
+    this.tasks.push(newTask);
+  }
 
-    update(id: number, data: Partial<CreateTaskDto>) {
-        const task = this.tasks.find(t => t.id === id);
+  update(id: number, data: Partial<CreateTaskDto>) {
+    const task = this.tasks.find((t) => t.id === id);
 
-        if(!task) return null;
+    if (!task) return null;
 
-        Object.assign(task, data);
+    Object.assign(task, data);
 
-        return task;
-    }
+    return task;
+  }
 
-    delete(id: number) {
-        this.tasks = this.tasks.filter(t => t.id !== id);
+  delete(id: number) {
+    this.tasks = this.tasks.filter((t) => t.id !== id);
 
-        return {deleted: true}
-    }
+    return { deleted: true };
+  }
 }
