@@ -24,7 +24,7 @@ export class TasksController {
     return this.tasksService.create(task);
   }
 
-  @Put()
+  @Put(':id')
   update(@Param('id') id: string, @Body() data: Partial<CreateTaskDto>) {
     return this.tasksService.update(id, data);
   }
