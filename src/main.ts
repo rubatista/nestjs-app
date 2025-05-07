@@ -3,6 +3,12 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+
+  app.enableCors({
+    origin: 'http://localhost:3001', // Atualiza para a porta do teu frontend NuxtJS
+    credentials: true, // Se estiveres a usar cookies ou autenticação com credenciais
+  });
+
+  await app.listen(3000); // backend will runn at port 3000
 }
 bootstrap();
